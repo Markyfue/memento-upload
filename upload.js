@@ -43,6 +43,7 @@ uploadBtn.addEventListener('click', async () => {
   formData.append('file', selectedFile);
   formData.append('upload_preset', UPLOAD_PRESET);
   formData.append('folder', 'memento-photos');
+  formData.append('tags', 'memento-photos');
 
   try {
     const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
