@@ -17,13 +17,14 @@ export default function handler(req, res) {
   const cloudName = 'fn6bhpgq';
 
   const timestamp = Math.floor(Date.now() / 1000);
-  const signatureStr = `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
+  const signatureStr = `invalidate=true&public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
   const signature = crypto
     .createHash('sha1')
     .update(signatureStr)
     .digest('hex');
 
   const formData = `public_id=${encodeURIComponent(publicId)}&timestamp=${timestamp}&api_key=${apiKey}&signature=${signature}&invalidate=true`;
+  
   const options = {
     hostname: 'api.cloudinary.com',
     path: `/v1_1/${cloudName}/image/destroy`,
