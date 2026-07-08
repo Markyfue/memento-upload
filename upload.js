@@ -56,9 +56,8 @@ uploadBtn.addEventListener('click', async () => {
     if (data.secure_url) {
       document.getElementById('uploadBox').style.display = 'none';
       successBox.style.display = 'flex';
-      successBox.style.flexDirection = 'column';
-      successBox.style.alignItems = 'center';
     } else {
+      
       throw new Error(data.error?.message || 'Upload failed');
     }
   } catch (err) {
