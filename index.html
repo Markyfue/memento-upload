@@ -182,10 +182,16 @@
     </div>
 
     <input type="file" id="fileInput" accept="image/*" capture="environment" />
+    <input type="file" id="galleryInput" accept="image/*" />
 
-    <button class="btn btn-select" id="selectBtn">
-      📷 Take or Choose Photo
-    </button>
+    <div style="display:flex; gap:10px;">
+      <button class="btn btn-select" id="selectBtn" style="flex:1">
+        📷 Take Photo
+      </button>
+      <button class="btn btn-select" id="galleryBtn" style="flex:1">
+        🖼️ Choose from Gallery
+      </button>
+    </div>
 
     <button class="btn btn-upload" id="uploadBtn" disabled>
       Upload to Memento

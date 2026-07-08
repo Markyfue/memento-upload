@@ -1,8 +1,10 @@
 const CLOUD_NAME    = 'fn6bhpgq';
 const UPLOAD_PRESET = 'Memento';
 
-const fileInput  = document.getElementById('fileInput');
-const selectBtn  = document.getElementById('selectBtn');
+const fileInput   = document.getElementById('fileInput');
+const galleryInput = document.getElementById('galleryInput');
+const selectBtn   = document.getElementById('selectBtn');
+const galleryBtn  = document.getElementById('galleryBtn');
 const uploadBtn  = document.getElementById('uploadBtn');
 const previewImg = document.getElementById('previewImg');
 const placeholder = document.getElementById('placeholder');
@@ -13,6 +15,23 @@ const anotherBtn = document.getElementById('anotherBtn');
 let selectedFile = null;
 
 selectBtn.addEventListener('click', () => fileInput.click());
+galleryBtn.addEventListener('click', () => galleryInput.click());
+
+galleryInput.addEventListener('change', () => {
+  const file = galleryInput.files[0];
+  if (!file) return;
+  selectedFile = file;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    previewImg.src = e.target.result;
+    previewImg.style.display = 'block';
+    placeholder.style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+  uploadBtn.disabled = false;
+  status.textContent = '';
+  status.className = 'status';
+});
 
 fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
@@ -57,7 +76,7 @@ uploadBtn.addEventListener('click', async () => {
       document.getElementById('uploadBox').style.display = 'none';
       successBox.style.display = 'flex';
     } else {
-      
+
       throw new Error(data.error?.message || 'Upload failed');
     }
   } catch (err) {
