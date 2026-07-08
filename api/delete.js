@@ -1,7 +1,7 @@
 const https = require('https');
 const crypto = require('crypto');
 
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -24,7 +24,7 @@ export default function handler(req, res) {
     .digest('hex');
 
   const formData = `public_id=${encodeURIComponent(publicId)}&timestamp=${timestamp}&api_key=${apiKey}&signature=${signature}&invalidate=true`;
-  
+
   const options = {
     hostname: 'api.cloudinary.com',
     path: `/v1_1/${cloudName}/image/destroy`,
@@ -41,6 +41,8 @@ export default function handler(req, res) {
     response.on('end', () => {
       try {
         const parsed = JSON.parse(data);
+        // Log for debugging
+        console.log('Cloudinary delete response:', parsed, 'for publicId:', publicId);
         res.status(200).json(parsed);
       } catch {
         res.status(500).json({ error: 'Invalid response from Cloudinary' });
@@ -54,4 +56,4 @@ export default function handler(req, res) {
 
   request.write(formData);
   request.end();
-}
+};
