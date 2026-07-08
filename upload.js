@@ -10,7 +10,13 @@ const previewImg = document.getElementById('previewImg');
 const placeholder = document.getElementById('placeholder');
 const status     = document.getElementById('status');
 const successBox = document.getElementById('successBox');
-const anotherBtn = document.getElementById('anotherBtn');
+const anotherBtn  = document.getElementById('anotherBtn');
+const noteInput   = document.getElementById('noteInput');
+const noteCounter = document.getElementById('noteCounter');
+
+noteInput.addEventListener('input', () => {
+  noteCounter.textContent = `${noteInput.value.length}/100`;
+});
 
 let selectedFile = null;
 
@@ -58,11 +64,14 @@ uploadBtn.addEventListener('click', async () => {
   uploadBtn.textContent = 'Uploading...';
   status.textContent = '';
 
+  const note = noteInput.value.trim();
+
   const formData = new FormData();
   formData.append('file', selectedFile);
   formData.append('upload_preset', UPLOAD_PRESET);
   formData.append('folder', 'memento-photos');
   formData.append('tags', 'memento-photos');
+  if (note) formData.append('context', `note=${note}`);
 
   try {
     const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
@@ -99,4 +108,6 @@ anotherBtn.addEventListener('click', () => {
   status.className = 'status';
   successBox.style.display = 'none';
   document.getElementById('uploadBox').style.display = 'flex';
+  noteInput.value = '';
+  noteCounter.textContent = '0/100';
 });
